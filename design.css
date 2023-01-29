@@ -1,0 +1,56 @@
+/*  배경 : #b2c7da
+    내 말풍선 : #ffeb34 
+    글씨 색 : 
+        #191919 시간 : #596673
+    방문 알림, 시간 알림 : #9bafbe
+   */
+
+.material-symbols-outlined {
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 40
+}
+
+.header{
+    width : 100%;
+    height : 60px;
+    border : solid black 1px;
+    display : flex;
+    justify-content: space-between;
+    align-items: center;
+    position : fixed;
+    background-color: #b2c7da;
+    color : #191919;
+}
+
+.header-left{
+    margin-left:10px;
+}
+
+.logo{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.sublogo{
+    display : flex;
+    font-size: 10px;
+    color : #596673;
+    display : flex;
+    align-items: center;
+}
+
+.header-right{
+    display : flex;
+    justify-content: space-between;
+    flex-direction: column;
+    margin-right : 10px;
+    align-items: center;
+}
+
+.header-icon{
+    display : flex;
+    align-items: center;
+}

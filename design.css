@@ -18,7 +18,7 @@
 .header{
     width : 100%;
     height : 60px;
-    border : solid black 1px;
+    border-bottom : 2px solid #9bafbe;
     display : flex;
     justify-content: space-between;
     align-items: center;
@@ -54,6 +54,7 @@
 }
 
 .header-icon{
+    /* font-size: 30px; */
     display : flex;
     align-items: center;
 }
@@ -120,7 +121,7 @@ input[type="search"]::-webkit-search-cancel-button {
     pointer-events: none;
 }
 input[type="search"]:focus::-webkit-search-cancel-button {
-opacity: .3;
-pointer-events: all;
+    opacity: .3;
+    pointer-events: all;
 }
   

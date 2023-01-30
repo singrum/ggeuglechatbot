@@ -3,14 +3,16 @@
     글씨 색 : 
         #191919 시간 : #596673
     방문 알림, 시간 알림 : #9bafbe
+    채팅창 : #ffffff
+    채팅창 아이콘 : #90949d
    */
-
+   /* font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 48 */
 .material-symbols-outlined {
     font-variation-settings:
-    'FILL' 0,
+    'FILL' 1,
     'wght' 400,
     'GRAD' 0,
-    'opsz' 40
+    'opsz' 48
 }
 
 .header{
@@ -32,6 +34,7 @@
 .logo{
     font-size: 20px;
     font-weight: 600;
+    color : #191919;
 }
 
 .sublogo{
@@ -54,3 +57,70 @@
     display : flex;
     align-items: center;
 }
+
+.chat-input{
+    height : 50px;
+    width : 100%;
+    background-color : #ffffff;
+    position : fixed;
+    bottom : 0;
+    display : flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-left{
+    width : 50px;
+    height : 50px;
+    /* background-color: #ffeb34; */
+    display : flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hint-icon{
+    display : flex;
+    align-items: center;
+}
+
+.chat-right{
+    width : 50px;
+    height : 50px;
+    background-color: #ffeb34;
+    display : flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.send-icon{
+    display : flex;
+    align-items: center;
+}
+
+.text-input{
+    width : calc(100vw - 100px);
+    height : 50px;
+    font-size : 20px;
+    border : 0px;
+}
+
+.text-input:focus{
+    outline: none;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    margin-right : 10px;
+    height: 20px;
+    width: 20px;
+    border-radius: 50em;
+    background: url(https://pro.fontawesome.com/releases/v5.10.0/svgs/solid/times-circle.svg) no-repeat 50% 50%;
+    background-size: contain;
+    opacity: 0;
+    pointer-events: none;
+}
+input[type="search"]:focus::-webkit-search-cancel-button {
+opacity: .3;
+pointer-events: all;
+}
+  

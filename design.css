@@ -128,6 +128,7 @@ input[type="search"]:focus::-webkit-search-cancel-button {
   
 .chat-window{
     position: fixed;
+    padding-bottom: 10px;
     bottom : 50px;
     width : 100%;
     height : calc(100% - 110px);
@@ -174,7 +175,7 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 
 .talkbubble {
     margin-top : 10px;
-    margin-left : 10px;
+    margin-left : 7px;
     padding : 5px 8px;
     
     display:inline-block;

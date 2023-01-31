@@ -138,7 +138,7 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 .computer-chat{
     display : grid;
     width : 100%;
-    height : 50px;
+    height : auto;
     grid-template-columns: 70px calc(100% - 70px);
     grid-template-rows: 20px auto;
     margin-top : 10px;
@@ -194,6 +194,39 @@ input[type="search"]:focus::-webkit-search-cancel-button {
     width: 0;
     height: 0;
     border-top: 0px solid transparent;
-    border-right: 13px solid #ffffff;
-    border-bottom: 13px solid transparent;
+    border-right: 10px solid #ffffff;
+    border-bottom: 10px solid transparent;
+}
+
+.my-chat{
+    display : flex;
+    width : 100%;
+    height : auto;
+    margin-top : 10px;
+    justify-content: flex-end;
+}
+
+.my-talkbubble{
+    margin-right : 20px;
+    padding : 5px 8px;
+    
+    display:inline-block;
+    width: auto;
+    
+    background: #ffeb34;
+    position: relative;
+    -moz-border-radius: 10px 0 10px 10px;
+    -webkit-border-radius: 10px 0 10px 10px;
+    border-radius: 10px 0 10px 10px;
+}
+.my-talkbubble:before {
+    content: "";
+    position: absolute;
+    left: 100%;
+    top: 0px;
+    width: 0;
+    height: 0;
+    border-top: 0px solid transparent;
+    border-left: 10px solid #ffeb34;
+    border-bottom: 10px solid transparent;
 }

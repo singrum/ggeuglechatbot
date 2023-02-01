@@ -180,12 +180,15 @@ input[type="search"]:focus::-webkit-search-cancel-button {
     
     display:inline-block;
     width: auto;
+    max-width: calc(100vw - 100px);
     
     background: #ffffff;
     position: relative;
     -moz-border-radius: 0 10px 10px 10px;
     -webkit-border-radius: 0 10px 10px 10px;
     border-radius: 0 10px 10px 10px;
+
+
 }
 .talkbubble:before {
     content: "";

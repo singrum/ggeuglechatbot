@@ -27,6 +27,16 @@ function init(){
     document.querySelector(".chat-right").addEventListener("click", checkAndLoad);
     window.addEventListener("keydown", e=> {if (e.code === "Enter"){checkAndLoad()}})
     
+
+
+    function loadInitChat(){
+        loadComputerChat("안녕하세요.<br>저는 끝말잇기 인공지능 끝파고입니다.<br>데이터베이스는 (구)표준국어대사전을 기준으로 하며 먼저 단어를 제시해주면 됩니다.")
+    }
+    loadInitChat()
+
+
+
+
 }
 
 window.onload = init;

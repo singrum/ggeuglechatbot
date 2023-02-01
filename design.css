@@ -174,8 +174,8 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 }
 
 .talkbubble {
-    margin-top : 10px;
-    margin-left : 7px;
+    margin-top : 6px;
+    margin-left : 2px;
     padding : 5px 8px;
     
     display:inline-block;
@@ -190,7 +190,7 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 
 
 }
-.talkbubble:before {
+/* .talkbubble:before {
     content: "";
     position: absolute;
     right: 90%;
@@ -200,7 +200,7 @@ input[type="search"]:focus::-webkit-search-cancel-button {
     border-top: 0px solid transparent;
     border-right: 10px solid #ffffff;
     border-bottom: 10px solid transparent;
-}
+} */
 
 .my-chat{
     display : flex;
@@ -211,11 +211,12 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 }
 
 .my-talkbubble{
-    margin-right : 20px;
+    margin-right : 12px;
     padding : 5px 8px;
     
     display:inline-block;
     width: auto;
+    max-width: calc(100vw - 100px);
     
     background: #ffeb34;
     position: relative;
@@ -223,7 +224,7 @@ input[type="search"]:focus::-webkit-search-cancel-button {
     -webkit-border-radius: 10px 0 10px 10px;
     border-radius: 10px 0 10px 10px;
 }
-.my-talkbubble:before {
+/* .my-talkbubble:before {
     content: "";
     position: absolute;
     left: 90%;
@@ -233,4 +234,4 @@ input[type="search"]:focus::-webkit-search-cancel-button {
     border-top: 0px solid transparent;
     border-left: 10px solid #ffeb34;
     border-bottom: 10px solid transparent;
-}
+} */

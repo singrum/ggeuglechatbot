@@ -22,8 +22,10 @@ function init(){
         </div>`
     }
 
-    document.querySelector(".chat-right").addEventListener("click", ()=>{if(INPUT.value !== ""){loadMyChat(INPUT.value)}; INPUT.value = ""; INPUT.click()});
-    window.addEventListener("keydown", e=> {if (e.code === "Enter"){if(INPUT.value !== ""){loadMyChat(INPUT.value)}; INPUT.value = ""; INPUT.click()}})
+    let checkAndLoad = ()=> {if(INPUT.value !== ""){loadMyChat(INPUT.value)}; INPUT.value = ""; INPUT.click()}
+
+    document.querySelector(".chat-right").addEventListener("click", checkAndLoad);
+    window.addEventListener("keydown", e=> {if (e.code === "Enter"){checkAndLoad()}})
     
 }
 

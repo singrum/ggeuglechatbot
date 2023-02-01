@@ -102,6 +102,8 @@
 .text-input{
     width : calc(100vw - 100px);
     height : 50px;
+    font-size : 15px;
+    padding : 0;
     font-size : 20px;
     border : 0px;
 }
@@ -131,7 +133,7 @@ input[type="search"]:focus::-webkit-search-cancel-button {
     padding-bottom: 10px;
     bottom : 50px;
     width : 100%;
-    height : calc(100% - 110px);
+    height : calc(100vh - 120px);
     background-color : #b2c7da;
     overflow: auto;
 }
@@ -142,7 +144,7 @@ input[type="search"]:focus::-webkit-search-cancel-button {
     height : auto;
     grid-template-columns: 70px calc(100% - 70px);
     grid-template-rows: 20px auto;
-    margin-top : 10px;
+    margin-top : 7px;
 }
 
 .icon-wrap{
@@ -166,6 +168,7 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 .nickname{
     grid-row: 1;
     grid-column: 2;
+    font-size: 12px;
 }
 
 .content{
@@ -174,12 +177,10 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 }
 
 .talkbubble {
-    margin-top : 6px;
-    margin-left : 2px;
-    padding : 5px 8px;
-    
+    padding : 4px 8px;
+    font-size : 15px;
+
     display:inline-block;
-    width: auto;
     max-width: calc(100vw - 100px);
     
     background: #ffffff;
@@ -206,17 +207,16 @@ input[type="search"]:focus::-webkit-search-cancel-button {
     display : flex;
     width : 100%;
     height : auto;
-    margin-top : 10px;
+    margin-top : 7px;
     justify-content: flex-end;
 }
 
 .my-talkbubble{
     margin-right : 12px;
-    padding : 5px 8px;
-    
+    padding : 4px 8px;
+    font-size : 15px;
     display:inline-block;
-    width: auto;
-    max-width: calc(100vw - 100px);
+    max-width: calc(100vw - 83px);
     
     background: #ffeb34;
     position: relative;

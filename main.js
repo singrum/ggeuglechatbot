@@ -9,8 +9,8 @@ function init(){
             </div>
             <div class = "nickname">끝파고</div>
             <div class = "content">
-                <span class = "talkbubble">${text}</span>
-            </div>
+            <span class = "talkbubble">${text}</span>
+        </div>
         </div>`;
     }
     
@@ -22,8 +22,8 @@ function init(){
         </div>`
     }
 
-    document.querySelector(".chat-right").addEventListener("click", ()=>{if(INPUT.value !== ""){loadMyChat(INPUT.value)}; INPUT.value = ""});
-    
+    document.querySelector(".chat-right").addEventListener("click", ()=>{if(INPUT.value !== ""){loadMyChat(INPUT.value)}; INPUT.value = ""; INPUT.click()});
+    window.addEventListener("keydown", e=> {if (e.code === "Enter"){if(INPUT.value !== ""){loadMyChat(INPUT.value)}; INPUT.value = ""; INPUT.click()}})
     
 }
 

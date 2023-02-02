@@ -142,7 +142,7 @@ input[type="search"]:focus::-webkit-search-cancel-button {
     display : grid;
     width : 100%;
     height : auto;
-    grid-template-columns: 70px calc(100% - 70px);
+    grid-template-columns: 60px calc(100% - 60px);
     grid-template-rows: 20px auto;
     margin-top : 7px;
 }
@@ -158,8 +158,8 @@ input[type="search"]:focus::-webkit-search-cancel-button {
     
 }
 .icon {
-    width : 50px;
-    height: 50px;
+    width : 40px;
+    height: 40px;
     border-radius: 40%;
     background-color: #191919;
 }

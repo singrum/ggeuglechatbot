@@ -63,21 +63,20 @@ async function init(){
             loadComputerChat("이미 사용한 단어입니다!");
             return;
         }
-        else{
-            HISTORY.push(word)
-            let curr_char = word[word.length - 1]
-            if(winIndex(curr_char) !== undefined){
-                let choiceword = nextWords(curr_char).filter(x => losIndex(x[x.length - 1]) !== undefined).reduce((a, b) => losIndex(a[a.length - 1]) < losIndex(b[b.length - 1]) ? a:b);
-                loadComputerChat(choiceword)
-            }
-            else if(losIndex(curr_char) !== undefined){
-                
-            }
-            else{
-
-            }
+        HISTORY.push(word)
+        let curr_char = word[word.length - 1]
+        if(winIndex(curr_char) >= 0){
+            /* 승리음절 */
+            loadComputerChat(nextWinWord(curr_char));
         }
-        
+        else if(losIndex(curr_char) >= 0){
+            /* 패배음절 */
+            loadComputerChat(nextLosWord(curr_char));
+        }
+        else{
+            /* 순환음절 */
+
+        }
     }
     let sc = (char)=>char.charCodeAt(0);//string to charcode
     let cs = (code)=>String.fromCharCode(code);//code to string
@@ -114,24 +113,20 @@ async function init(){
         return false
     }
     function winIndex(char){
-        for(let i in CHARCLASS.win){
-            if(CHARCLASS.win[i].includes(char)){
-                return i
-            }
-        }
+        return CHARCLASS.win.findIndex(x => x.includes(char)) /* win이 아니면 -1 반환 */
     }
     function losIndex(char){
-        for(let i in CHARCLASS.los){
-            if(CHARCLASS.los[i].includes(char)){
-                return i
-            }
-        }
+        return CHARCLASS.los.findIndex(x => x.includes(char))
     }
-    
     function nextWords(char){
         return changable(char).map(x => ALLWORDSDICT[x]).flat()
     }
-
+    function nextWinWord(char){
+        return nextWords(char).filter(x => losIndex(x[x.length - 1]) >= 0).reduce((a, b) => losIndex(a[a.length - 1]) < losIndex(b[b.length - 1]) ? a:b);
+    }
+    function nextLosWord(char){
+        return nextWords(char).filter(x => winIndex(x[x.length - 1]) >= 0).reduce((a, b) => winIndex(a[a.length - 1]) > winIndex(b[b.length - 1]) ? a:b);
+    }
 
 }
 

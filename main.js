@@ -66,11 +66,11 @@ async function init(){
         else{
             HISTORY.push(word)
             let curr_char = word[word.length - 1]
-            if(isWin(curr_char)){
-                let choiceword = nextWords(curr_char).filter(isLos).reduce((a, b) => losIndex(b) > losIndex(b) ? a:b);
+            if(winIndex(curr_char) !== undefined){
+                let choiceword = nextWords(curr_char).filter(x => losIndex(x[x.length - 1]) !== undefined).reduce((a, b) => losIndex(a[a.length - 1]) < losIndex(b[b.length - 1]) ? a:b);
                 loadComputerChat(choiceword)
             }
-            else if(isLos(curr_char)){
+            else if(losIndex(curr_char) !== undefined){
                 
             }
             else{
@@ -113,29 +113,23 @@ async function init(){
         if(HISTORY.includes(word)){return true}
         return false
     }
-    function isWin(char){
-        WINCHAR.includes(char);
-    }
-    function isLos(char){
-        LOSCHAR.includes(char);
-    }
     function winIndex(char){
         for(let i in CHARCLASS.win){
-            if(CHARCLASS.win.includes(char)){
+            if(CHARCLASS.win[i].includes(char)){
                 return i
             }
         }
     }
     function losIndex(char){
         for(let i in CHARCLASS.los){
-            if(CHARCLASS.los.includes(char)){
+            if(CHARCLASS.los[i].includes(char)){
                 return i
             }
         }
     }
     
     function nextWords(char){
-        return changable(char).reduce((a,b) => ALLWORDSDICT[a].concat(ALLWORDSDICT[b]))
+        return changable(char).map(x => ALLWORDSDICT[x]).flat()
     }
 
 

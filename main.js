@@ -1,7 +1,11 @@
-function init(){
+async function init(){
     const CHAT = document.querySelector(".chat-window");
     const INPUT = document.querySelector(".text-input");
-    const ALLWORDSDICT = {'a' : ['ab', 'bc'], 'b' : ['bc', 'ba']}
+    let response
+    response = await fetch('https://singrum.github.io/mcts-wordchain/json/all_words_dict.json');
+    const ALLWORDSDICT = await response.json();
+    response = await fetch('https://singrum.github.io/mcts-wordchain/json/char_class.json');
+    const CHARCLASS = await response.json();
     const WINCHAR = []
     const LOSCHAR = []
     const CIRCHAR = []
@@ -61,10 +65,12 @@ function init(){
         }
         else{
             HISTORY.push(word)
-            if(isWin(word[word.length - 1])){
-                
+            let curr_char = word[word.length - 1]
+            if(isWin(curr_char)){
+                let choiceword = nextWords(curr_char).filter(isLos).reduce((a, b) => losIndex(b) > losIndex(b) ? a:b);
+                loadComputerChat(choiceword)
             }
-            else if(isLos(word[word.length - 1])){
+            else if(isLos(curr_char)){
                 
             }
             else{
@@ -72,6 +78,30 @@ function init(){
             }
         }
         
+    }
+    let sc = (char)=>char.charCodeAt(0);//string to charcode
+    let cs = (code)=>String.fromCharCode(code);//code to string
+    function changable(char){
+        if(sc(char) >= sc("랴") && sc(char) <= sc("럏") ||
+        sc(char) >= sc("려") && sc(char) <= sc("렿") ||
+        sc(char) >= sc("료") && sc(char) <= sc("룧") ||
+        sc(char) >= sc("류") && sc(char) <= sc("륳") ||
+        sc(char) >= sc("리") && sc(char) <= sc("맇") ||
+        sc(char) >= sc("례") && sc(char) <= sc("롛")) 
+            return [char, cs(sc(char) + sc("아") - sc("라"))];
+        if(sc(char) >= sc("라") && sc(char) <= sc("랗") ||
+        sc(char) >= sc("래") && sc(char) <= sc("랳") ||
+        sc(char) >= sc("로") && sc(char) <= sc("롷") ||
+        sc(char) >= sc("루") && sc(char) <= sc("뤃") ||
+        sc(char) >= sc("르") && sc(char) <= sc("릏") ||
+        sc(char) >= sc("뢰") && sc(char) <= sc("뢰")) 
+            return [char, cs(sc(char) + sc('나') - sc("라"))];
+        if(sc(char) >= sc("녀") && sc(char) <= sc("녛") ||
+        sc(char) >= sc("뇨") && sc(char) <= sc("눃") ||
+        sc(char) >= sc("뉴") && sc(char) <= sc("늏") ||
+        sc(char) >= sc("니") && sc(char) <= sc("닣")) 
+            return [char, cs(sc(char) + sc('아') - sc("나"))];
+        return [char];
     }
 
     function isInvalid(word){
@@ -89,6 +119,25 @@ function init(){
     function isLos(char){
         LOSCHAR.includes(char);
     }
+    function winIndex(char){
+        for(let i in CHARCLASS.win){
+            if(CHARCLASS.win.includes(char)){
+                return i
+            }
+        }
+    }
+    function losIndex(char){
+        for(let i in CHARCLASS.los){
+            if(CHARCLASS.los.includes(char)){
+                return i
+            }
+        }
+    }
+    
+    function nextWords(char){
+        return changable(char).reduce((a,b) => ALLWORDSDICT[a].concat(ALLWORDSDICT[b]))
+    }
+
 
 }
 

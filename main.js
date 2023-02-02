@@ -6,9 +6,6 @@ async function init(){
     const ALLWORDSDICT = await response.json();
     response = await fetch('https://singrum.github.io/mcts-wordchain/json/char_class.json');
     const CHARCLASS = await response.json();
-    const WINCHAR = []
-    const LOSCHAR = []
-    const CIRCHAR = []
     const HISTORY = []
     
     function loadComputerChat(text){
@@ -63,24 +60,41 @@ async function init(){
             loadComputerChat("이미 사용한 단어입니다!");
             return;
         }
+
         HISTORY.push(word)
         let curr_char = word[word.length - 1]
+        
+        if(nextWords(curr_char).length === 0){
+            loadComputerChat("Game Over<br>당신이 승리하셨습니다!");
+            return;
+        }
+        let choice;
         if(winIndex(curr_char) >= 0){
             /* 승리음절 */
-            loadComputerChat(nextWinWord(curr_char));
+            choice = nextWinWord(curr_char);
+            if (choice === -1){
+                choice = nextLosWord(curr_char)
+            }
         }
         else if(losIndex(curr_char) >= 0){
             /* 패배음절 */
-            loadComputerChat(nextLosWord(curr_char));
+            choice = nextLosWord(curr_char)
         }
         else{
             /* 순환음절 */
-
+            
+        }
+        HISTORY.push(choice)
+        loadComputerChat(choice);
+        if(nextWords(choice[choice.length - 1]).length === 0){
+            loadComputerChat("Game Over<br>제가 승리했습니다!");
+            return;
         }
     }
-    let sc = (char)=>char.charCodeAt(0);//string to charcode
-    let cs = (code)=>String.fromCharCode(code);//code to string
+
     function changable(char){
+        let sc = (char)=>char.charCodeAt(0);//string to charcode
+        let cs = (code)=>String.fromCharCode(code);//code to string
         if(sc(char) >= sc("랴") && sc(char) <= sc("럏") ||
         sc(char) >= sc("려") && sc(char) <= sc("렿") ||
         sc(char) >= sc("료") && sc(char) <= sc("룧") ||
@@ -112,20 +126,21 @@ async function init(){
         if(HISTORY.includes(word)){return true}
         return false
     }
-    function winIndex(char){
-        return CHARCLASS.win.findIndex(x => x.includes(char)) /* win이 아니면 -1 반환 */
-    }
-    function losIndex(char){
-        return CHARCLASS.los.findIndex(x => x.includes(char))
-    }
-    function nextWords(char){
-        return changable(char).map(x => ALLWORDSDICT[x]).flat()
-    }
+    
+    function winIndex(char){return CHARCLASS.win.findIndex(x => x.includes(char)) /* win이 아니면 -1 반환 */}
+    function losIndex(char){return CHARCLASS.los.findIndex(x => x.includes(char)) /* los가 아니면 -1 반환 */}
+    function nextWords(char){return changable(char).map(x => ALLWORDSDICT[x]).flat().filter(x=>!HISTORY.includes(x))}
+
     function nextWinWord(char){
-        return nextWords(char).filter(x => losIndex(x[x.length - 1]) >= 0).reduce((a, b) => losIndex(a[a.length - 1]) < losIndex(b[b.length - 1]) ? a:b);
+        let win_words = nextWords(char).filter(x => losIndex(x[x.length - 1]) >= 0)
+        if(win_words.length === 0){
+            return -1
+        }
+        return win_words.reduce((a, b) => losIndex(a[a.length - 1]) < losIndex(b[b.length - 1]) ? a:b);
     }
     function nextLosWord(char){
-        return nextWords(char).filter(x => winIndex(x[x.length - 1]) >= 0).reduce((a, b) => winIndex(a[a.length - 1]) > winIndex(b[b.length - 1]) ? a:b);
+        let los_words = nextWords(char).filter(x => winIndex(x[x.length - 1]) >= 0)
+        return los_words.reduce((a, b) => winIndex(a[a.length - 1]) > winIndex(b[b.length - 1]) ? a:b);
     }
 
 }

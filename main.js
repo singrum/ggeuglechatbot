@@ -2,6 +2,9 @@ function init(){
     const CHAT = document.querySelector(".chat-window");
     const INPUT = document.querySelector(".text-input");
     const ALLWORDSDICT = {'a' : ['ab', 'bc'], 'b' : ['bc', 'ba']}
+    const WINCHAR = []
+    const LOSCHAR = []
+    const CIRCHAR = []
     const HISTORY = []
     
     function loadComputerChat(text){
@@ -49,11 +52,26 @@ function init(){
         checkAndLoad(word);
         INPUT.value = "";
         if(isInvalid(word)){
-            loadComputerChat("존재하지 않는 단어입니다!")
+            loadComputerChat("존재하지 않는 단어입니다!");
+            return;
         }
         else if(isUsed(word)){
-            
+            loadComputerChat("이미 사용한 단어입니다!");
+            return;
         }
+        else{
+            HISTORY.push(word)
+            if(isWin(word[word.length - 1])){
+                
+            }
+            else if(isLos(word[word.length - 1])){
+                
+            }
+            else{
+
+            }
+        }
+        
     }
 
     function isInvalid(word){
@@ -62,9 +80,15 @@ function init(){
         return false;
     }
     function isUsed(word){
-        
+        if(HISTORY.includes(word)){return true}
+        return false
     }
-
+    function isWin(char){
+        WINCHAR.includes(char);
+    }
+    function isLos(char){
+        LOSCHAR.includes(char);
+    }
 
 }
 

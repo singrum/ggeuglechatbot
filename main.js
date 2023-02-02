@@ -1,4 +1,12 @@
 async function init(){
+    const CHECKKOREAN = (char) => {
+        
+        let isThereLastChar = (char.charCodeAt(0) - 44032) % 28
+        if (isThereLastChar) {
+          return '으로'
+        }
+        return '로'
+    }
     const CHAT = document.querySelector(".chat-window");
     const INPUT = document.querySelector(".text-input");
     let response
@@ -56,7 +64,13 @@ async function init(){
             loadComputerChat("존재하지 않는 단어입니다!");
             return;
         }
-        else if(isUsed(word)){
+        if(isNotConnect(word)){
+            let last = HISTORY[HISTORY.length - 1]
+            console.log(last[last.length - 1])
+            loadComputerChat(`'${last[last.length - 1]}'${CHECKKOREAN(last[last.length - 1])} 시작하는 단어를 입력해주세요!`);
+            return;
+        }
+        if(isUsed(word)){
             loadComputerChat("이미 사용한 단어입니다!");
             return;
         }
@@ -122,6 +136,14 @@ async function init(){
         if(!ALLWORDSDICT[word[0]].includes(word)){return true};
         return false;
     }
+
+    function isNotConnect(word){
+        if(HISTORY.length === 0) return false;
+        let last = HISTORY[HISTORY.length - 1]
+        if(nextWords(last[last.length - 1]).includes(word)){return false};
+        return true
+    }
+
     function isUsed(word){
         if(HISTORY.includes(word)){return true}
         return false

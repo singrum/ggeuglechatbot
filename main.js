@@ -92,16 +92,16 @@ async function init(){
         }
         else if(losIndex(curr_char) >= 0){
             /* 패배음절 */
-            choice = nextLosWord(curr_char)
+            choice = nextLosWord(curr_char);
         }
         else{
             /* 순환음절 */
-            
+            choice = nextCirWord(curr_char);
         }
         HISTORY.push(choice)
         loadComputerChat(choice);
         if(nextWords(choice[choice.length - 1]).length === 0){
-            loadComputerChat("Game Over<br>제가 승리했습니다!");
+            loadComputerChat("Game Over!<br>제가 승리했습니다!");
             return;
         }
     }
@@ -165,6 +165,9 @@ async function init(){
         return los_words.reduce((a, b) => winIndex(a[a.length - 1]) > winIndex(b[b.length - 1]) ? a:b);
     }
 
+    function nextCirWord(char){
+        
+    }
 }
 
 window.onload = init;

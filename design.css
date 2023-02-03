@@ -131,9 +131,9 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 .chat-window{
     position: fixed;
     padding-bottom: 10px;
-    bottom : 50px;
+    top : 60px;
     width : 100%;
-    height : calc(100vh - 120px);
+    height : calc(100vh - 60px);
     background-color : #b2c7da;
     overflow: auto;
 }

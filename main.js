@@ -1,4 +1,5 @@
 async function init(){
+
     const CHECKKOREAN = (char) => {
         
         let isThereLastChar = (char.charCodeAt(0) - 44032) % 28
@@ -15,7 +16,7 @@ async function init(){
     response = await fetch('https://singrum.github.io/mcts-wordchain/json/char_class.json');
     const CHARCLASS = await response.json();
     const HISTORY = []
-    
+    window.onresize = function(){CHAT.style.height = "calc(100vh - 120px)";CHAT.scrollTop = CHAT.scrollHeight;} // 모바일 적용되는지 확인
     function loadComputerChat(text){
         CHAT.innerHTML += `<div class = "computer-chat">
             <div class = "icon-wrap">
@@ -26,6 +27,7 @@ async function init(){
             <div class = "talkbubble">${text}</div>
         </div>
         </div>`;
+        CHAT.scrollTop = CHAT.scrollHeight;
     }
     
     function loadMyChat(text){
@@ -34,16 +36,10 @@ async function init(){
                 <div class = "my-talkbubble">${text}</div>
             </div>
         </div>`
+        CHAT.scrollTop = CHAT.scrollHeight;
     }
 
-    function checkAndLoad(text){
-        if(text !== ""){
-            loadMyChat(text);
-            CHAT.scrollTop = CHAT.scrollHeight;
-            INPUT.click();
-    };}
 
-    CHAT.addEventListener("click", ()=>{CHAT.scrollTop = CHAT.scrollHeight;})
     document.querySelector(".chat-right").addEventListener("click", whenEntertheWord);
     window.addEventListener("keydown", e=> {if (e.code === "Enter"){whenEntertheWord()}})
     
@@ -58,7 +54,13 @@ async function init(){
     
     function whenEntertheWord(){
         let word = INPUT.value
-        checkAndLoad(word);
+        if (word.replace(/\s/g, '').length === 0){
+            // 공백만 포함 돼 있으면
+            return;
+        }
+        loadMyChat(word);
+        INPUT.click();
+        
         INPUT.value = "";
         if(isInvalid(word)){
             loadComputerChat("존재하지 않는 단어입니다!");
@@ -166,7 +168,11 @@ async function init(){
     }
 
     function nextCirWord(char){
+        let graph = makeGraph();
         
+    }
+    function makeGraph(dict){
+        return;
     }
 }
 

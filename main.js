@@ -19,7 +19,6 @@ async function init(){
     response = await fetch('https://singrum.github.io/mcts-wordchain/json/cir_words_dict.json');
     const CIRWORDSDICT = await response.json()
     const CIRGRAPH = makeChangableNode(makeGraph(CIRWORDSDICT))
-    console.log(CIRGRAPH)
 
     const HISTORY = []
     window.onresize = function(){CHAT.style.height = "calc(100% - 120px)";} // 모바일 적용되는지 확인
@@ -74,7 +73,7 @@ async function init(){
         }
         if(isNotConnect(word)){
             let last = HISTORY[HISTORY.length - 1]
-            console.log(last[last.length - 1])
+            
             loadComputerChat(`'${last[last.length - 1]}'${CHECKKOREAN(last[last.length - 1])} 시작하는 단어를 입력해주세요!`);
             return;
         }
@@ -215,18 +214,125 @@ async function init(){
         }
         return graph
     }
-    // def makeChangableNode(graph):
-    // changable_subgraph = {}
-    // for char in graph:
-    //     if len(changable.changable(char)) > 1:
-    //         for chan in changable.changable(char)[1:]:
-    //             if not chan in graph:
-    //                 continue
-    //             changable_subgraph[(char, chan)] = Counter({})
-    //             changable_subgraph[(char, chan)][chan] += 1
-    //             graph[char][(char, chan)] += 1
-    // for key,val in changable_subgraph.items():
-    //     graph[key] = val
+    
+    function removeZero(counter){
+        for(let key in counter){
+            if(counter[key] === 0){
+                delete counter[key]
+            }
+        }
+    }
+    class Node{
+        constructor(curr_char, history, parent = undefined){
+            this.n = 0;
+            this.w = 0;
+            this.curr_char = curr_char;
+            this.history = history;
+            this.parent = parent;
+            this.next_char = this.getNextChar(); /*Counter*/
+
+            this.children = {};
+        }
+        getNextChar(){
+            let result = {...CIRGRAPH[this.curr_char]};
+            if(this.history[this.curr_char]){
+                for(let char in this.history[this.curr_char]){
+                    result[char] -= this.history[this.curr_char][char];
+                    removeZero(result);
+                }
+            }
+            return result
+        }
+        select(){
+            return Object.values(this.children).reduce((a, b)=>{ return a.UTC() > b.UTC() ? a:b;});
+        }
+        UTC(){
+            return this.w / this.n + Math.sqrt(2 * Math.log(this.parent.n) / this.n)
+        }
+        expand(){
+            for(let char in this.next_char){
+                if(!this.children[char]){
+                    let child = this.makeChild(char);
+                    this.children[char] = child;
+                    return child;
+                }
+            }
+        }
+        makeChild(char){
+            let history_copy = copyGraph(this.history)
+            if(this.curr_char.length === 1 && char.length === 1){
+                if(!history_copy[this.curr_char]){
+                    history_copy[this.curr_char]={}
+                }
+                counterIncrease(history_copy[this.curr_char], char)
+            }
+            let child = new Node(char, history_copy, this)
+            return child
+        }
+        isEnd(){
+            if(Object.keys(this.next_char).length === 0) return true;
+        }
+        isComplete(){
+            return Object.keys(this.children).length === Object.keys(this.next_char).length;
+        }
+        winProb(){
+            return 1 - this.w / this.n
+        }
+        
+    }
+
+    function simulate(node, stack){
+        let ptr = node;
+        stack.push(ptr);
+        while(true){
+            ptr = ptr.isComplete() ? ptr.select() : ptr.expand();
+            stack.push(ptr);
+            if(ptr.isEnd()) break;
+
+        }
+    }
+
+    function backprop(stack){
+        let alter = true;
+        let node;
+        while(stack.length !== 0){
+            node = stack.pop();
+            node.n++;
+            
+            if(alter){
+                node.w++;
+            }
+            alter = !alter;
+        }
+    }
+
+    function learn(node, iter = 10){
+        let stack = []
+        console.log(`...learning start(${iter} times)`)
+        let j = 1;
+        for(let i = 0; i < iter; i++){
+            if(i + 1 === parseInt(iter * j / 10)){
+                console.log(`...learning ${j}0%`);
+                j++;
+            }
+            simulate(node, stack);
+            backprop(stack);
+        }
+    }
+    let n = new Node("증", {})
+    // learn(n,3000)
+    
+    console.log(n)
+
+
+    // print(f'...learning start ({expand} times)')
+    // j = 1
+    // for i in range(expand):
+    //     if (i+1) == expand * j// 10:
+    //         print(f'...learning {j}0%')
+    //         j += 1
+    //     simulate(node, stack)
+    //     backpropagate(stack)
 }
 
 window.onload = init;

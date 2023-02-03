@@ -191,17 +191,6 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 
 
 }
-/* .talkbubble:before {
-    content: "";
-    position: absolute;
-    right: 90%;
-    top: 0px;
-    width: 0;
-    height: 0;
-    border-top: 0px solid transparent;
-    border-right: 10px solid #ffffff;
-    border-bottom: 10px solid transparent;
-} */
 
 .my-chat{
     display : flex;
@@ -224,14 +213,3 @@ input[type="search"]:focus::-webkit-search-cancel-button {
     -webkit-border-radius: 10px 0 10px 10px;
     border-radius: 10px 0 10px 10px;
 }
-/* .my-talkbubble:before {
-    content: "";
-    position: absolute;
-    left: 90%;
-    top: 0px;
-    width: 0;
-    height: 0;
-    border-top: 0px solid transparent;
-    border-left: 10px solid #ffeb34;
-    border-bottom: 10px solid transparent;
-} */

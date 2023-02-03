@@ -10,11 +10,17 @@ async function init(){
     }
     const CHAT = document.querySelector(".chat-window");
     const INPUT = document.querySelector(".text-input");
+
     let response
     response = await fetch('https://singrum.github.io/mcts-wordchain/json/all_words_dict.json');
     const ALLWORDSDICT = await response.json();
     response = await fetch('https://singrum.github.io/mcts-wordchain/json/char_class.json');
     const CHARCLASS = await response.json();
+    response = await fetch('https://singrum.github.io/mcts-wordchain/json/cir_words_dict.json');
+    const CIRWORDSDICT = await response.json()
+    const CIRGRAPH = makeChangableNode(makeGraph(CIRWORDSDICT))
+    console.log(CIRGRAPH)
+
     const HISTORY = []
     window.onresize = function(){CHAT.style.height = "calc(100% - 120px)";} // 모바일 적용되는지 확인
     function loadComputerChat(text){
@@ -169,11 +175,58 @@ async function init(){
 
     function nextCirWord(char){
         let graph = makeGraph();
-        
     }
+
     function makeGraph(dict){
-        return;
+        let graph = {}
+        for(let char in dict){
+            graph[char] = {};
+            for(let nextword of dict[char]){
+                counterIncrease(graph[char], nextword[nextword.length - 1])
+            }
+        }
+        return graph;
     }
+
+    function counterIncrease(counter, char){
+        counter[char] = counter[char] ?? 0;
+        counter[char] ++;
+    }
+    
+    function copyGraph(graph){
+        return JSON.parse(JSON.stringify(graph))
+    }
+
+    function makeChangableNode(graph){
+        subgraph = {};
+        for(let char in graph){
+            let chans = changable(char)
+            if(chans.length > 1){
+                let chan = chans[1];
+                if(graph[chan]){
+                    subgraph[`${char}-${chan}`] = {};
+                    counterIncrease(subgraph[`${char}-${chan}`], chan);
+                    counterIncrease(graph[char], `${char}-${chan}`);
+                }
+            }
+        }
+        for(let chanNode in subgraph){
+            graph[chanNode] = subgraph[chanNode]
+        }
+        return graph
+    }
+    // def makeChangableNode(graph):
+    // changable_subgraph = {}
+    // for char in graph:
+    //     if len(changable.changable(char)) > 1:
+    //         for chan in changable.changable(char)[1:]:
+    //             if not chan in graph:
+    //                 continue
+    //             changable_subgraph[(char, chan)] = Counter({})
+    //             changable_subgraph[(char, chan)][chan] += 1
+    //             graph[char][(char, chan)] += 1
+    // for key,val in changable_subgraph.items():
+    //     graph[key] = val
 }
 
 window.onload = init;

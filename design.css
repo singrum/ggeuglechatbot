@@ -133,7 +133,7 @@ input[type="search"]:focus::-webkit-search-cancel-button {
     padding-bottom: 10px;
     top : 60px;
     width : 100%;
-    height : calc(100vh - 60px);
+    height : calc(100% - 120px);
     background-color : #b2c7da;
     overflow: auto;
 }

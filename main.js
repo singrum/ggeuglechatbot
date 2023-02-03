@@ -16,7 +16,7 @@ async function init(){
     response = await fetch('https://singrum.github.io/mcts-wordchain/json/char_class.json');
     const CHARCLASS = await response.json();
     const HISTORY = []
-    window.onresize = function(){CHAT.style.height = "calc(100vh - 120px)";CHAT.scrollTop = CHAT.scrollHeight;} // 모바일 적용되는지 확인
+    window.onresize = function(){CHAT.style.height = "calc(100% - 120px)";} // 모바일 적용되는지 확인
     function loadComputerChat(text){
         CHAT.innerHTML += `<div class = "computer-chat">
             <div class = "icon-wrap">

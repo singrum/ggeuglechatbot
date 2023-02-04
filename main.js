@@ -42,6 +42,7 @@ async function init(){
             </div>
         </div>`
         CHAT.scrollTop = CHAT.scrollHeight;
+        console.log(CHAT.innerHTML)
     }
 
 
@@ -64,9 +65,8 @@ async function init(){
             return;
         }
         loadMyChat(word);
-        INPUT.click();
-        
         INPUT.value = "";
+        INPUT.click();
         if(isInvalid(word)){
             loadComputerChat("존재하지 않는 단어입니다!");
             return;
@@ -93,9 +93,6 @@ async function init(){
         if(winIndex(curr_char) >= 0){
             /* 승리음절 */
             choice = nextWinWord(curr_char);
-            if (choice === -1){
-                choice = nextLosWord(curr_char)
-            }
         }
         else if(losIndex(curr_char) >= 0){
             /* 패배음절 */
@@ -104,6 +101,9 @@ async function init(){
         else{
             /* 순환음절 */
             choice = nextCirWord(curr_char);
+            if(choice.length === 1){
+                choice = nextCirWord(choice);
+            }
         }
         HISTORY.push(choice)
         loadComputerChat(choice);
@@ -163,18 +163,44 @@ async function init(){
     function nextWinWord(char){
         let win_words = nextWords(char).filter(x => losIndex(x[x.length - 1]) >= 0)
         if(win_words.length === 0){
-            return -1
+            return nextLosWord(char)
         }
         return win_words.reduce((a, b) => losIndex(a[a.length - 1]) < losIndex(b[b.length - 1]) ? a:b);
     }
+
     function nextLosWord(char){
         let los_words = nextWords(char).filter(x => winIndex(x[x.length - 1]) >= 0)
         return los_words.reduce((a, b) => winIndex(a[a.length - 1]) > winIndex(b[b.length - 1]) ? a:b);
     }
 
     function nextCirWord(char){
-        let graph = makeGraph();
+        if(CIRWORDSDICT[char].filter(x => !HISTORY.includes(x)).length === 0){
+            return nextLosWord(char);
+        }
+        let cir_history = HistorytoCirGraphHisotry(HISTORY);
+        let node = new Node(char, cir_history);
+        learn(node, 3000);
+        let recommended_next_char = Object.keys(node.children).reduce((a,b) => node.children[a].w / node.children[a].n > node.children[b].w / node.children[b].n ? a : b);
+        if (recommended_next_char.length !== 1){
+            return recommended_next_char[recommended_next_char.length - 1];
+        }
+        return CIRWORDSDICT[char].find(x => (x[x.length - 1] === recommended_next_char) && !HISTORY.includes(x));
+
     }
+
+    function HistorytoCirGraphHisotry(history){
+        let cir_history = history.filter(x => CHARCLASS.cir.includes(x[0]) && CHARCLASS.cir.includes(x[x.length - 1]))
+        let result = {}
+        for(let cir_word of cir_history){
+            if(!result[cir_word[0]]){
+                result[cir_word[0]] = {}
+            }
+            counterIncrease(result[cir_word[0]], cir_word[cir_word.length - 1])
+        }
+        return result
+    }
+
+
 
     function makeGraph(dict){
         let graph = {}
@@ -319,20 +345,17 @@ async function init(){
             backprop(stack);
         }
     }
-    let n = new Node("증", {})
-    // learn(n,3000)
-    
-    console.log(n)
+
+    function recommendNextWord(node){
+        // let recommended_next_char = Object.keys(node.children).reduce((a,b) => node.children[a].w / node.children[a].n > node.children[b].w / node.children[b].n ? a : b);
+        // if (recommended_next_char.length !== 1){
+        //     recommended_next_char = recommended_next_char[recommended_next_char.length - 1];
+        //     recommended_next_char
+        // }
+
+    }
 
 
-    // print(f'...learning start ({expand} times)')
-    // j = 1
-    // for i in range(expand):
-    //     if (i+1) == expand * j// 10:
-    //         print(f'...learning {j}0%')
-    //         j += 1
-    //     simulate(node, stack)
-    //     backpropagate(stack)
 }
 
 window.onload = init;

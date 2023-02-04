@@ -50,13 +50,19 @@ async function init(){
             </div>
         </div>`
         CHAT.scrollTop = CHAT.scrollHeight;
-        console.log(CHAT.innerHTML)
     }
 
 
     document.querySelector(".chat-right").addEventListener("click", whenEntertheWord);
     window.addEventListener("keydown", e=> {if (e.code === "Enter"){whenEntertheWord()}})
     
+    document.querySelector(".chat-left").addEventListener("click", whenHintClick);
+
+    function whenHintClick(){
+        if(HISTORY.length === 0)return;
+        let next = nextWords(HISTORY[HISTORY.length - 1])
+        INPUT.value = next[Math.floor(Math.random() * next.length)]
+    }
 
 
     function loadInitChat(){
@@ -169,7 +175,7 @@ async function init(){
     
     function winIndex(char){return CHARCLASS.win.findIndex(x => x.includes(char)) /* win이 아니면 -1 반환 */}
     function losIndex(char){return CHARCLASS.los.findIndex(x => x.includes(char)) /* los가 아니면 -1 반환 */}
-    function nextWords(char){return changable(char).filter(x=>Object.keys(ALLWORDSDICT).includes(x)).map(x => ALLWORDSDICT[x]).flat().filter(x=>!HISTORY.includes(x))}
+    function nextWords(char){return changable(char[char.length - 1]).filter(x=>Object.keys(ALLWORDSDICT).includes(x)).map(x => ALLWORDSDICT[x]).flat().filter(x=>!HISTORY.includes(x))}
 
     function nextWinWord(char){
         let win_words = nextWords(char).filter(x => losIndex(x[x.length - 1]) >= 0)

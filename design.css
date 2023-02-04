@@ -171,7 +171,11 @@ input[type="search"]:focus::-webkit-search-cancel-button {
     width : 40px;
     height: 40px;
     border-radius: 40%;
-    background-color: #191919;
+    background-color: #ffffff;
+    background-image: url("ggeugle_logo_small.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 

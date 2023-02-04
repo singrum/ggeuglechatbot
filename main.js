@@ -101,15 +101,16 @@ async function init(){
         }
         else{
             /* 순환음절 */
-            choice = nextCirWord(curr_char);
+            choice = nextRandomCirWord(curr_char);
             if(choice.length === 1){
-                choice = nextCirWord(choice);
+                choice = nextRandomCirWord(choice);
             }
         }
         HISTORY.push(choice)
         loadComputerChat(choice);
         if(nextWords(choice[choice.length - 1]).length === 0){
             loadComputerChat("Game Over!<br>제가 승리했습니다!");
+            HISTORY.splice(0, HISTORY.length);
             return;
         }
     }
@@ -187,6 +188,15 @@ async function init(){
         }
         return CIRWORDSDICT[char].find(x => (x[x.length - 1] === recommended_next_char) && !HISTORY.includes(x));
 
+    }
+
+    function nextRandomCirWord(char){
+        let next_cir_words = changable(char).map(x=>CIRWORDSDICT[x]).flat().filter(x=>!HISTORY.includes(x))
+        
+        if(next_cir_words.length === 0){
+            return nextLosWord(char);
+        }
+        return next_cir_words[Math.floor(Math.random() * next_cir_words.length)]
     }
 
     function HistorytoCirGraphHisotry(history){

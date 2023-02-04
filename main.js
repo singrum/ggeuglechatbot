@@ -34,6 +34,14 @@ async function init(){
         </div>`;
         CHAT.scrollTop = CHAT.scrollHeight;
     }
+    function loadComputerChatSimple(text){
+        CHAT.innerHTML += `<div class = "computer-chat-simple">
+            <div class = "content">
+            <div class = "talkbubble">${text}</div>
+        </div>
+        </div>`;
+        CHAT.scrollTop = CHAT.scrollHeight;
+    }
     
     function loadMyChat(text){
         CHAT.innerHTML += `<div class = "my-chat">
@@ -88,6 +96,7 @@ async function init(){
         
         if(nextWords(curr_char).length === 0){
             loadComputerChat("Game Over<br>당신이 승리하셨습니다!");
+            HISTORY.splice(0, HISTORY.length);
             return;
         }
         let choice;
@@ -109,7 +118,7 @@ async function init(){
         HISTORY.push(choice)
         loadComputerChat(choice);
         if(nextWords(choice[choice.length - 1]).length === 0){
-            loadComputerChat("Game Over!<br>제가 승리했습니다!");
+            loadComputerChatSimple("Game Over!<br>제가 승리했습니다!");
             HISTORY.splice(0, HISTORY.length);
             return;
         }

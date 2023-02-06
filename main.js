@@ -12,11 +12,11 @@ async function init(){
     const INPUT = document.querySelector(".text-input");
 
     let response
-    response = await fetch('https://singrum.github.io/mcts-wordchain/json/all_words_dict.json');
+    response = await fetch('https://singrum.github.io/ggeuglechatbot/json/all_words_dict.json');
     const ALLWORDSDICT = await response.json();
-    response = await fetch('https://singrum.github.io/mcts-wordchain/json/char_class.json');
+    response = await fetch('https://singrum.github.io/ggeuglechatbot/json/char_class.json');
     const CHARCLASS = await response.json();
-    response = await fetch('https://singrum.github.io/mcts-wordchain/json/cir_words_dict.json');
+    response = await fetch('https://singrum.github.io/ggeuglechatbot/json/cir_words_dict.json');
     const CIRWORDSDICT = await response.json()
     const CIRGRAPH = makeChangableNode(makeGraph(CIRWORDSDICT))
 
@@ -27,7 +27,7 @@ async function init(){
             <div class = "icon-wrap">
                 <div class = "icon"></div>
             </div>
-            <div class = "nickname">끝파고</div>
+            <div class = "nickname">끄글봇</div>
             <div class = "content">
             <div class = "talkbubble">${text}</div>
         </div>
@@ -66,7 +66,7 @@ async function init(){
 
 
     function loadInitChat(){
-        loadComputerChat("안녕하세요.<br>끝말잇기 인공지능 끝파고입니다.<br>먼저 단어를 제시해주세요!")
+        loadComputerChat("안녕하세요.<br>끝말잇기 인공지능 끄글봇입니다.<br>먼저 단어를 제시해주세요!")
     }
     loadInitChat()
 

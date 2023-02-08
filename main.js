@@ -86,16 +86,17 @@ async function init(){
             loadComputerChat("존재하지 않는 단어입니다!");
             return;
         }
+        if(isUsed(word)){
+            loadComputerChat("이미 사용한 단어입니다!");
+            return;
+        }
         if(isNotConnect(word)){
             let last = HISTORY[HISTORY.length - 1]
             
             loadComputerChat(`'${last[last.length - 1]}'${CHECKKOREAN(last[last.length - 1])} 시작하는 단어를 입력해주세요!`);
             return;
         }
-        if(isUsed(word)){
-            loadComputerChat("이미 사용한 단어입니다!");
-            return;
-        }
+        
 
         HISTORY.push(word)
         let curr_char = word[word.length - 1]
